@@ -1,6 +1,8 @@
 ﻿using AR.Data.Interfaces;
+using AR.Domain;
 using Microsoft.AspNetCore.Mvc;
-
+using System;
+using System.Threading.Tasks;
 
 namespace AR.Apresentacao.Controllers
 {
@@ -19,6 +21,23 @@ namespace AR.Apresentacao.Controllers
         public IActionResult Get()
         {
             return Ok(_repository.GetAll());
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Add(Cliente cliente)
+        {
+            try
+            {
+                await _repository.Add(cliente);
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, ex.Message);
+            }
+            
         }
     }
 }
